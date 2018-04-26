@@ -2,21 +2,9 @@
 #include "light.h"
 #include "vec.h"
 
-//FILL IN STUFF
-
 //computes ambient, diffuse, and specular lighting; returns final color
 COLOR_T illuminate (RAY_T ray, LIGHT_T light, OBJ_T *list, COLOR_T surface_col, VEC_T int_pt, VEC_T normal)
 {
-    //return surface_col;
-    //start ambient first
-
-    //create local variable called l
-    //light - int
-    //destination - source
-
-    //add not further light beyond cosine of 90 degrees
-    //always add ambient
-
     COLOR_T finished_color;
     finished_color = surface_col;
 
@@ -33,7 +21,6 @@ COLOR_T illuminate (RAY_T ray, LIGHT_T light, OBJ_T *list, COLOR_T surface_col, 
     finished_color.G = 0.2 * surface_col.G;
     finished_color.B = 0.2 * surface_col.B;
 
-    //if (dot(normal(light vector), normal(int_pt)) < 0)
     if (light_vector_normalized > 0)
     {
         //ADD SHADOW
@@ -58,5 +45,3 @@ COLOR_T illuminate (RAY_T ray, LIGHT_T light, OBJ_T *list, COLOR_T surface_col, 
     return finished_color;
 
 }
-
-///returns true if int_point is in shadow

@@ -6,7 +6,7 @@ Professor Tim Davis
 College of William & Mary
 
 Ray caster program that accepts a text file where spheres, each one separated by new lines, are expected to be located and represented in a rendered .ppm image.
-Improved.
+Improved to show objects in 3D!
 */
 
 #include "rt.h"
@@ -20,7 +20,6 @@ Improved.
 #include "math.h"
 
 void read_objs(OBJ_T **list);
-COLOR_T cast(RAY_T ray, OBJ_T *list);
 
 //reads objects from the given file into a list
 void read_objs(OBJ_T **list) {
@@ -66,11 +65,7 @@ COLOR_T trace(RAY_T ray, OBJ_T *list, LIGHT_T light) {
             closest_obj = pointer;
         }
     }
-    /*
-    if (minimum_distance != 1000.0) {
-        return minimum_color;
-    }
-    */
+
     if (closest_obj != NULL) {
         color = illuminate(ray, light, list, minimum_color, closest_int_pt, closest_normal);
         return color;
@@ -83,7 +78,7 @@ COLOR_T trace(RAY_T ray, OBJ_T *list, LIGHT_T light) {
 /*
 Reads all the spheres from the piped-in text file into a dynamic memory linked list.
 Initializes the ppm image with the "magic number," the width and height of the image, and the max color value.
-Cast rays upon the image space, painting colors to represent the spheres.
+Traces rays upon the image space, painting colors and shaders to represent the spheres.
 Free up everything at the very end.
 */
 int main() {
@@ -121,7 +116,6 @@ int main() {
             light.loc.y = 10;
             light.loc.z = 0;
 
-            //NEED TO INITALIZE CAPS COLOR?
             COLOR_T caps;
             caps.B = 1;
             caps.G = 1;
