@@ -16,34 +16,55 @@ int intersect_sphere(RAY_T ray, SPHERE_T sphere, double *t, VEC_T *int_pt, VEC_T
         return 0;
     }
 
-    int_pt->x = origin.x + direction.x * *t;
-    int_pt->y = origin.y + direction.y * *t;
-    int_pt->z = origin.z + direction.z * *t;
-
-    normal->x = (int_pt->x - center.x)/radius;
-    normal->y = (int_pt->y - center.y)/radius;
-    normal->z = (int_pt->z - center.z)/radius;
-
     double length = ((-b) + sqrt(discrimnt)) / 2;
     double length2 = ((-b) - sqrt(discrimnt)) / 2;
+
     if (length <= 0 && length2 <= 0) {
         return 0;
     }
     if (length <= 0 && length2 > 0) {
         *t = length2;
+        int_pt->x = origin.x + direction.x * *t;
+        int_pt->y = origin.y + direction.y * *t;
+        int_pt->z = origin.z + direction.z * *t;
+
+        normal->x = (int_pt->x - center.x)/radius;
+        normal->y = (int_pt->y - center.y)/radius;
+        normal->z = (int_pt->z - center.z)/radius;
         return 1;
     }
     if (length > 0 && length2 <= 0) {
         *t = length;
+        int_pt->x = origin.x + direction.x * *t;
+        int_pt->y = origin.y + direction.y * *t;
+        int_pt->z = origin.z + direction.z * *t;
+
+        normal->x = (int_pt->x - center.x)/radius;
+        normal->y = (int_pt->y - center.y)/radius;
+        normal->z = (int_pt->z - center.z)/radius;
         return 1;
     }
     if (length > 0 && length2 > 0) {
         if (length < length2) {
             *t = length;
+            int_pt->x = origin.x + direction.x * *t;
+            int_pt->y = origin.y + direction.y * *t;
+            int_pt->z = origin.z + direction.z * *t;
+
+            normal->x = (int_pt->x - center.x)/radius;
+            normal->y = (int_pt->y - center.y)/radius;
+            normal->z = (int_pt->z - center.z)/radius;
             return 1;
         }
         else {
            *t = length2;
+            int_pt->x = origin.x + direction.x * *t;
+            int_pt->y = origin.y + direction.y * *t;
+            int_pt->z = origin.z + direction.z * *t;
+
+            normal->x = (int_pt->x - center.x)/radius;
+            normal->y = (int_pt->y - center.y)/radius;
+            normal->z = (int_pt->z - center.z)/radius;
             return 1;
         }
     }

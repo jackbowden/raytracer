@@ -11,6 +11,5 @@ typedef struct LIGHT_T {
 
 //function prototype?
 COLOR_T illuminate (RAY_T ray, LIGHT_T light, OBJ_T *list, COLOR_T surface_col, VEC_T int_pt, VEC_T normal);
-static int shadow_test (LIGHT_T light, OBJ_T *list, VEC_T int_pt);
 
 #endif

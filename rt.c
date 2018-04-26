@@ -46,13 +46,14 @@ void read_objs(OBJ_T **list) {
 COLOR_T trace(RAY_T ray, OBJ_T *list, LIGHT_T light) {
     double distance;
     double minimum_distance = 1000.0;
-    COLOR_T minimum_color, white;
+    COLOR_T minimum_color, black, color;
     OBJ_T *pointer;
-    VEC_T int_pt, normal;
+    OBJ_T *closest_obj = NULL;
+    VEC_T int_pt, normal, closest_int_pt, closest_normal;
 
-    white.R = 1.0;
-    white.G = 1.0;
-    white.B = 1.0;
+    black.R = 0.0;
+    black.G = 0.0;
+    black.B = 0.0;
 
     for (pointer = list; pointer != NULL; pointer = pointer->next) {
         distance = minimum_distance + 1.0;
@@ -60,14 +61,22 @@ COLOR_T trace(RAY_T ray, OBJ_T *list, LIGHT_T light) {
         if (sphere_located == 1 && distance < minimum_distance) {
             minimum_distance = distance;
             minimum_color = pointer->color;
+            closest_int_pt = int_pt;
+            closest_normal = normal;
+            closest_obj = pointer;
         }
     }
-
+    /*
     if (minimum_distance != 1000.0) {
         return minimum_color;
     }
+    */
+    if (closest_obj != NULL) {
+        color = illuminate(ray, light, list, minimum_color, closest_int_pt, closest_normal);
+        return color;
+    }
     else {
-        return white;
+        return black;
     }
 }
 
@@ -113,11 +122,25 @@ int main() {
             light.loc.z = 0;
 
             //NEED TO INITALIZE CAPS COLOR?
+            COLOR_T caps;
+            caps.B = 1;
+            caps.G = 1;
+            caps.R = 1;
 
             COLOR_T color = trace(ray, list, light);
+            if (color.R > caps.R) {
+                color.R = 1;
+            }
+            if (color.G > caps.G) {
+                color.G = 1;
+            }
+            if (color.B > caps.B) {
+                color.B = 1;
+            }
             unsigned char r = color.R * 255;
             unsigned char g = color.G * 255;
             unsigned char b = color.B * 255;
+
             printf("%c%c%c", r, g, b);
         }
     }
