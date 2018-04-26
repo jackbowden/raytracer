@@ -6,7 +6,6 @@ typedef struct VEC_T {
 } VEC_T;
 
 double dot(VEC_T v1, VEC_T v2);
-
 VEC_T normalize(VEC_T v);
 
 #endif

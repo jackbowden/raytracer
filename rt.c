@@ -1,17 +1,19 @@
 /*
 Jack Bowden
-March 28, 2018
+April 26, 2018
 CSCI 304 Computer Organization
 Professor Tim Davis
 College of William & Mary
 
 Ray caster program that accepts a text file where spheres, each one separated by new lines, are expected to be located and represented in a rendered .ppm image.
+Improved.
 */
 
 #include "rt.h"
 #include "vec.h"
 #include "obj.h"
 #include "sphere.h"
+#include "light.h"
 
 #include "stdlib.h"
 #include "stdio.h"
@@ -41,11 +43,12 @@ void read_objs(OBJ_T **list) {
 }
 
 //fire a ray and determine the color needed to represent what is being targeted
-COLOR_T cast(RAY_T ray, OBJ_T *list) {
+COLOR_T trace(RAY_T ray, OBJ_T *list, LIGHT_T light) {
     double distance;
     double minimum_distance = 1000.0;
     COLOR_T minimum_color, white;
     OBJ_T *pointer;
+    VEC_T int_pt, normal;
 
     white.R = 1.0;
     white.G = 1.0;
@@ -53,7 +56,7 @@ COLOR_T cast(RAY_T ray, OBJ_T *list) {
 
     for (pointer = list; pointer != NULL; pointer = pointer->next) {
         distance = minimum_distance + 1.0;
-        int sphere_located = intersect_sphere(ray, pointer->sphere, &distance);
+        int sphere_located = intersect_sphere(ray, pointer->sphere, &distance, &int_pt, &normal);
         if (sphere_located == 1 && distance < minimum_distance) {
             minimum_distance = distance;
             minimum_color = pointer->color;
@@ -104,7 +107,14 @@ int main() {
             ray.origin = zero_vector;
             ray.direction = target_location;
 
-            COLOR_T color = cast(ray, list);
+            LIGHT_T light;
+            light.loc.x = 5;
+            light.loc.y = 10;
+            light.loc.z = 0;
+
+            //NEED TO INITALIZE CAPS COLOR?
+
+            COLOR_T color = trace(ray, list, light);
             unsigned char r = color.R * 255;
             unsigned char g = color.G * 255;
             unsigned char b = color.B * 255;
