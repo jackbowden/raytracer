@@ -1,4 +1,4 @@
-#include "math.h" //DO I NEED THIS
+#include "math.h"
 #include "light.h"
 #include "vec.h"
 
@@ -14,7 +14,6 @@ COLOR_T illuminate (RAY_T ray, LIGHT_T light, OBJ_T *list, COLOR_T surface_col, 
     light_vector.y = (light.loc.y - int_pt.y);
     light_vector.z = (light.loc.z - int_pt.z);
     light_vector_normalized = dot(normalize(light_vector), normal);
-
 
     //AMBIENT COLOR
     finished_color.R = 0.2 * surface_col.R;
